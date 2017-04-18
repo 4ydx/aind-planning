@@ -289,6 +289,17 @@ Goal(At(C1, JFK) ∧ At(C2, SFO) ∧ At(C3, SFO))
            expr('At(P1, SFO)'),
            expr('At(P2, JFK)'),
            expr('At(P3, ATL)'),
+
+           # appears to be unnecessary
+           expr('Cargo(C1)'), 
+           expr('Cargo(C2)'),
+           expr('Cargo(C3)'),
+           expr('Plane(P1)'),
+           expr('Plane(P2)'),
+           expr('Plane(P3)'),
+           expr('Airport(JFK)'),
+           expr('Airport(SFO)'),
+           expr('Airport(ATL)'),
            ]
     neg = [expr('At(C1, JFK)'),
            expr('At(C1, ATL)'),
@@ -344,6 +355,18 @@ Goal(At(C1, JFK) ∧ At(C3, JFK) ∧ At(C2, SFO) ∧ At(C4, SFO))
 
            expr('At(P1, SFO)'),
            expr('At(P2, JFK)'),
+
+           # appears to be unnecessary
+           expr('Cargo(C1)'), 
+           expr('Cargo(C2)'),
+           expr('Cargo(C3)'),
+           expr('Cargo(C4)'),
+           expr('Plane(P1)'),
+           expr('Plane(P2)'),
+           expr('Airport(JFK)'),
+           expr('Airport(SFO)'),
+           expr('Airport(ATL)'),
+           expr('Airport(ORD)'),
            ]
     neg = [expr('At(C1, JFK)'),
            expr('At(C1, ATL)'),
