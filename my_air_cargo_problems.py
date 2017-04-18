@@ -230,7 +230,9 @@ Goal(At(C1, JFK) ∧ At(C2, SFO))
            expr('At(P1, SFO)'),
            expr('At(P2, JFK)'),
 
-           expr('Cargo(C1)'),
+           # these dont seem to be required at all though it makes 
+           # the code conform more stricktly with the concept in the book
+           expr('Cargo(C1)'), 
            expr('Cargo(C2)'),
            expr('Plane(P1)'),
            expr('Plane(P2)'),
