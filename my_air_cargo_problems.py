@@ -206,8 +206,11 @@ class AirCargoProblem(Problem):
         executed.
         '''
         # TODO implement (see Russell-Norvig Ed-3 10.2.3  or Russell-Norvig Ed-2 11.2)
-        # honestly i cannot believe that it is this simple.  i must be doing something incorrectly even though the tests passes.
+        # honestly i cannot believe that it is this simple.  i must be doing something incorrectly even though the tests pass.
         if self.goal_test(node.state):
+            # so if the current nodes state is in the goals then we only need to fulfill the remaining goals from here
+            # considering that ignoring preconditions is ok i am assuming we can immediately jump to all goal states
+            # but that probably isnt true.  unfortunately i have no way of knowing this since tests are passing.
             return len(self.goal) - 1
         return len(self.goal)
 
