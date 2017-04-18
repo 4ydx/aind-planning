@@ -247,7 +247,6 @@ Goal(At(C1, JFK) ∧ At(C2, SFO) ∧ At(C3, SFO))
 
 
 def air_cargo_p2() -> AirCargoProblem:
-    # TODO implement Problem 2 definition
     '''
 Init(At(C1, SFO) ∧ At(C2, JFK) ∧ At(C3, ATL) 
 	∧ At(P1, SFO) ∧ At(P2, JFK) ∧ At(P3, ATL) 
@@ -303,7 +302,6 @@ Goal(At(C1, JFK) ∧ At(C2, SFO) ∧ At(C3, SFO))
 
 
 def air_cargo_p3() -> AirCargoProblem:
-    # TODO implement Problem 3 definition
     '''
 Init(At(C1, SFO) ∧ At(C2, JFK) ∧ At(C3, ATL) ∧ At(C4, ORD) 
 	∧ At(P1, SFO) ∧ At(P2, JFK) 
