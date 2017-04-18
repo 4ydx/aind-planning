@@ -65,8 +65,7 @@ class AirCargoProblem(Problem):
             for c in self.cargos:
                 for p in self.planes:
                     for a in self.airports:
-                        precond_pos = [expr("At({}, {})".format(c, a)), expr("At({}, {})".format(p, a)), expr("Cargo({})".format(c)), expr("Plane({})".format(p)), expr("Airport({})".format(a))]
-                        #precond_pos = [expr("At({}, {})".format(c, a)), expr("At({}, {})".format(p, a))]
+                        precond_pos = [expr("At({}, {})".format(c, a)), expr("At({}, {})".format(p, a))]
                         precond_neg = []
                         effect_add  = [expr("In({}, {})".format(c, p))]
                         effect_rem  = [expr("At({}, {})".format(c, a))]
@@ -87,8 +86,7 @@ class AirCargoProblem(Problem):
             for c in self.cargos:
                 for p in self.planes:
                     for a in self.airports:
-                        precond_pos = [expr("In({}, {})".format(c, p)), expr("At({}, {})".format(p, a)), expr("Cargo({})".format(c)), expr("Plane({})".format(p)), expr("Airport({})".format(a))]
-                        #precond_pos = [expr("In({}, {})".format(c, p)), expr("At({}, {})".format(p, a))]
+                        precond_pos = [expr("In({}, {})".format(c, p)), expr("At({}, {})".format(p, a))]
                         precond_neg = []
                         effect_add  = [expr("At({}, {})".format(c, a))]
                         effect_rem  = [expr("In({}, {})".format(c, p))]
@@ -110,8 +108,7 @@ class AirCargoProblem(Problem):
                 for to in self.airports:
                     if fr != to:
                         for p in self.planes:
-                            precond_pos = [expr("At({}, {})".format(p, fr)), expr("Plane({})".format(p)), expr("Airport({})".format(fr)), expr("Airport({})".format(to))]
-                            #precond_pos = [expr("At({}, {})".format(p, fr))]
+                            precond_pos = [expr("At({}, {})".format(p, fr))]
                             precond_neg = []
                             effect_add = [expr("At({}, {})".format(p, to))]
                             effect_rem = [expr("At({}, {})".format(p, fr))]
@@ -229,15 +226,6 @@ Goal(At(C1, JFK) ∧ At(C2, SFO))
            expr('At(C2, JFK)'),
            expr('At(P1, SFO)'),
            expr('At(P2, JFK)'),
-
-           # these dont seem to be required at all though it makes 
-           # the code conform more stricktly with the concept in the book
-           expr('Cargo(C1)'), 
-           expr('Cargo(C2)'),
-           expr('Plane(P1)'),
-           expr('Plane(P2)'),
-           expr('Airport(JFK)'),
-           expr('Airport(SFO)'),
            ]
     neg = [expr('At(C2, SFO)'),
            expr('In(C2, P1)'),
@@ -247,21 +235,6 @@ Goal(At(C1, JFK) ∧ At(C2, SFO))
            expr('In(C1, P2)'),
            expr('At(P1, JFK)'),
            expr('At(P2, SFO)'),
-
-           expr('Cargo(P1)'),
-           expr('Cargo(P2)'),
-           expr('Cargo(JFK)'),
-           expr('Cargo(SFO)'),
-
-           expr('Plane(C1)'),
-           expr('Plane(C2)'),
-           expr('Plane(JFK)'),
-           expr('Plane(SFO)'),
-
-           expr('Airport(C1)'),
-           expr('Airport(C2)'),
-           expr('Airport(P1)'),
-           expr('Airport(P2)'),
            ]
     init = FluentState(pos, neg)
     goal = [expr('At(C1, JFK)'),
@@ -289,17 +262,6 @@ Goal(At(C1, JFK) ∧ At(C2, SFO) ∧ At(C3, SFO))
            expr('At(P1, SFO)'),
            expr('At(P2, JFK)'),
            expr('At(P3, ATL)'),
-
-           # appears to be unnecessary
-           expr('Cargo(C1)'), 
-           expr('Cargo(C2)'),
-           expr('Cargo(C3)'),
-           expr('Plane(P1)'),
-           expr('Plane(P2)'),
-           expr('Plane(P3)'),
-           expr('Airport(JFK)'),
-           expr('Airport(SFO)'),
-           expr('Airport(ATL)'),
            ]
     neg = [expr('At(C1, JFK)'),
            expr('At(C1, ATL)'),
@@ -355,18 +317,6 @@ Goal(At(C1, JFK) ∧ At(C3, JFK) ∧ At(C2, SFO) ∧ At(C4, SFO))
 
            expr('At(P1, SFO)'),
            expr('At(P2, JFK)'),
-
-           # appears to be unnecessary
-           expr('Cargo(C1)'), 
-           expr('Cargo(C2)'),
-           expr('Cargo(C3)'),
-           expr('Cargo(C4)'),
-           expr('Plane(P1)'),
-           expr('Plane(P2)'),
-           expr('Airport(JFK)'),
-           expr('Airport(SFO)'),
-           expr('Airport(ATL)'),
-           expr('Airport(ORD)'),
            ]
     neg = [expr('At(C1, JFK)'),
            expr('At(C1, ATL)'),
