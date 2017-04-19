@@ -379,7 +379,6 @@ class PlanningGraph():
         :param node_a2: PgNode_a
         :return: bool
         '''
-        #
         if not self.serial:
             return False
         if node_a1.is_persistent or node_a2.is_persistent:
@@ -513,6 +512,13 @@ class PlanningGraph():
         :return: int
         '''
         level_sum = 0
-        # TODO implement
-        # for each goal in the problem, determine the level cost, then add them together
-        return level_sum
+        lmax      = len(self.s_levels)
+        goal      = self.problem.goal[:]
+        for level in range (0, lmax):
+            for s_level in self.s_levels[level]:
+                if s_level.literal in goal:
+                    level_sum += level
+                    goal.remove(s_level.literal)
+                    if len(goal) == 0:
+                        return level_sum
+        return 0
