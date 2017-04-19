@@ -86,4 +86,25 @@ func main() {
 	for _, ds := range dataSets {
 		fmt.Printf("%+v\n", ds)
 	}
+
+	fmt.Println("Expansions")
+	for _, ds := range dataSets {
+		name := strings.Replace(strings.Title(strings.Replace(ds.Name, "_", " ", -1)), " ", "", -1)
+		fmt.Printf("%s %s\n", name, ds.Expansions)
+	}
+	fmt.Println("Goal Tests")
+	for _, ds := range dataSets {
+		name := strings.Replace(strings.Title(strings.Replace(ds.Name, "_", " ", -1)), " ", "", -1)
+		fmt.Printf("%s %s\n", name, ds.GoalTests)
+	}
+	fmt.Println("New Nodes")
+	for _, ds := range dataSets {
+		name := strings.Replace(strings.Title(strings.Replace(ds.Name, "_", " ", -1)), " ", "", -1)
+		fmt.Printf("%s %s\n", name, ds.NewNodes)
+	}
+	fmt.Println("Path Length")
+	for _, ds := range dataSets {
+		name := strings.Replace(strings.Title(strings.Replace(ds.Name, "_", " ", -1)), " ", "", -1)
+		fmt.Printf("%s %s\n", name, ds.PathLength)
+	}
 }
