@@ -400,13 +400,18 @@ class PlanningGraph():
         :param node_a2: PgNode_a
         :return: bool
         '''
-        # TODO test for Inconsistent Effects between nodes
+        for effect_a1 in node_a1.effnodes:
+            for effect_a2 in node_a2.effnodes:
+                if effect_a1.symbol == effect_a2.symbol and effect_a1.is_pos != effect_a2.is_pos:
+                    return True
         return False
 
     def interference_mutex(self, node_a1: PgNode_a, node_a2: PgNode_a) -> bool:
         '''
         Test a pair of actions for mutual exclusion, returning True if the 
         effect of one action is the negation of a precondition of the other.
+
+        One of the effects of one action is the negation of a precondition of the other.
 
         HINT: The Action instance associated with an action node is accessible
         through the PgNode_a.action attribute. See the Action class
@@ -417,7 +422,14 @@ class PlanningGraph():
         :param node_a2: PgNode_a
         :return: bool
         '''
-        # TODO test for Interference between nodes
+        for effect_a1 in node_a1.effnodes:
+            for pre_a2 in node_a2.prenodes:
+                if effect_a1.symbol == pre_a2.symbol and effect_a1.is_pos != pre_a2.is_pos:
+                    return True
+        for effect_a2 in node_a2.effnodes:
+            for pre_a1 in node_a1.prenodes:
+                if effect_a2.symbol == pre_a1.symbol and effect_a2.is_pos != pre_a1.is_pos:
+                    return True
         return False
 
     def competing_needs_mutex(self, node_a1: PgNode_a, node_a2: PgNode_a) -> bool:
@@ -430,8 +442,13 @@ class PlanningGraph():
         :param node_a2: PgNode_a
         :return: bool
         '''
-
-        # TODO test for Competing Needs between nodes
+        for parent_a1 in node_a1.parents:
+            for parent_a2 in node_a2.parents:
+                if parent_a1.symbol == parent_a2.symbol and parent_a1.is_pos != parent_a2.is_pos:
+                    println("does this happen?")
+                    return True
+                if parent_a1.is_mutex(parent_a2):
+                    return True
         return False
 
     def update_s_mutex(self, nodeset: set):
@@ -466,8 +483,7 @@ class PlanningGraph():
         :param node_s2: PgNode_s
         :return: bool
         '''
-        # TODO test for negation between nodes
-        return False
+        return node_s1.symbol == node_s2.symbol and node_s1.is_pos != node_s2.is_pos
 
     def inconsistent_support_mutex(self, node_s1: PgNode_s, node_s2: PgNode_s):
         '''
