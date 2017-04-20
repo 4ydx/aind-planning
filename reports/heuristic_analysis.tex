@@ -2,7 +2,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
 \usepackage{pgfplotstable}
-\pgfplotsset{compat=1.13}
+\pgfplotsset{
+	compat=1.13,
+}
+\usepgfplotslibrary{colormaps}
 
 \title{Heuristic Analysis}
 \author{Nathan Findley}
@@ -22,11 +25,21 @@
 \begin{tikzpicture}
 	\begin{axis}[
 			title={Expansions},
-			ybar,
+			major x tick style = transparent,
+			ybar=0pt,
+			ymax=25000,
 			symbolic x coords={BreadthFirstSearch,BreadthFirstTreeSearch,DepthFirstGraphSearch,DepthLimitedSearch,UniformCostSearch,RecursiveBestFirstSearchH1,GreedyBestFirstGraphSearchH1,AstarSearchH1,AstarSearchHIgnorePreconditions,HPgLevelsum},
-			x post scale=2,
+			x post scale=1.9,
 			x tick label style={rotate=45,anchor=east},
-			nodes near coords
+			bar width=10pt,
+			nodes near coords,
+			every node near coord/.append style={rotate=90, anchor=west},
+      legend cell align=left,
+      legend style={
+       at={(1,1.05)},
+       anchor=south east,
+       column sep=1ex
+      }
 			]
 
 		\addplot table {
@@ -44,7 +57,7 @@
 		};
 
 		\addplot table {
-			X Y
+			X Y 
 			BreadthFirstSearch 3343
 			BreadthFirstTreeSearch 0
 			DepthFirstGraphSearch 624
@@ -56,6 +69,20 @@
 			AstarSearchHIgnorePreconditions 3689
 			HPgLevelsum 86
 			};
+
+			\addplot table {
+				X Y
+				BreadthFirstSearch 14663
+				BreadthFirstTreeSearch 0
+				DepthFirstGraphSearch 408
+				DepthLimitedSearch 0
+				UniformCostSearch 18223
+				RecursiveBestFirstSearchH1 0
+				GreedyBestFirstGraphSearchH1 5578
+				AstarSearchH1 18223
+				AstarSearchHIgnorePreconditions 14719
+				HPgLevelsum 0
+				};
 
 		\addlegendentry{Problem 1}
 		\addlegendentry{Problem 2}
