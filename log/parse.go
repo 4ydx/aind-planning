@@ -28,12 +28,26 @@ Unload(C2, P2, SFO)
 Unload(C4, P2, SFO)
 */
 
+var ExpectedTypes = []string{
+	"BreadthFirstSearch",
+	"BreadthFirstTreeSearch",
+	"DepthFirstGraphSearch",
+	"DepthLimitedSearch",
+	"UniformCostSearch",
+	"RecursiveBestFirstSearchH1",
+	"GreedyBestFirstGraphSearchH1",
+	"AstarSearchH1",
+	"AstarSearchHIgnorePreconditions",
+	"HPgLevelsum",
+}
+
 type DataSet struct {
-	Name       string
-	Expansions string
-	GoalTests  string
-	NewNodes   string
-	PathLength string
+	Name        string
+	Expansions  string
+	GoalTests   string
+	NewNodes    string
+	TimeElapsed string
+	PathLength  string
 }
 
 func main() {
@@ -80,6 +94,7 @@ func main() {
 			}
 			if word == "Plan" {
 				dataSets[len(dataSets)-1].PathLength = words[wnm+2]
+				dataSets[len(dataSets)-1].TimeElapsed = words[len(words)-1]
 			}
 		}
 	}
@@ -92,19 +107,48 @@ func main() {
 		name := strings.Replace(strings.Title(strings.Replace(ds.Name, "_", " ", -1)), " ", "", -1)
 		fmt.Printf("%s %s\n", name, ds.Expansions)
 	}
+	FillEmpty(dataSets)
+
 	fmt.Println("Goal Tests")
 	for _, ds := range dataSets {
 		name := strings.Replace(strings.Title(strings.Replace(ds.Name, "_", " ", -1)), " ", "", -1)
 		fmt.Printf("%s %s\n", name, ds.GoalTests)
 	}
+	FillEmpty(dataSets)
+
 	fmt.Println("New Nodes")
 	for _, ds := range dataSets {
 		name := strings.Replace(strings.Title(strings.Replace(ds.Name, "_", " ", -1)), " ", "", -1)
 		fmt.Printf("%s %s\n", name, ds.NewNodes)
 	}
+	FillEmpty(dataSets)
+
 	fmt.Println("Path Length")
 	for _, ds := range dataSets {
 		name := strings.Replace(strings.Title(strings.Replace(ds.Name, "_", " ", -1)), " ", "", -1)
 		fmt.Printf("%s %s\n", name, ds.PathLength)
+	}
+	FillEmpty(dataSets)
+
+	fmt.Println("Time Elapsed")
+	for _, ds := range dataSets {
+		name := strings.Replace(strings.Title(strings.Replace(ds.Name, "_", " ", -1)), " ", "", -1)
+		fmt.Printf("%s %s\n", name, ds.TimeElapsed)
+	}
+	FillEmpty(dataSets)
+}
+
+func FillEmpty(dss []DataSet) {
+	for _, ex := range ExpectedTypes {
+		found := false
+		for _, ds := range dss {
+			name := strings.Replace(strings.Title(strings.Replace(ds.Name, "_", " ", -1)), " ", "", -1)
+			if name == ex {
+				found = true
+			}
+		}
+		if !found {
+			fmt.Printf("%s 0\n", ex)
+		}
 	}
 }
