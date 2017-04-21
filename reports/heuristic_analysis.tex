@@ -14,12 +14,40 @@
 \begin{document}
 
 \maketitle
+\tableofcontents
 
 \begin{abstract}
 	Abstract
 \end{abstract}
 
-\section{Choice of Algorithm}
+\section{Optimal Plan}
+
+The order of presidence when evaluating an optimal plan is perhaps debatable
+but I would consider time to find the path be the most essential constraint followed
+perhaps by the length of the path in the evaluation of a real world problem.  Take for
+instance the actual planning of shipments, the time taken to plan routes is quite critical
+when it comes to customer satisfaction, but the actual plan itself could, unnecessarily long,
+result in extreme costs of shipping.  Expansions and new nodes are more theoretically interesting
+it seems to me.
+
+Fortunately given the data presented below, there really isn't much debate to be had about the
+best plan of action: Breadth First Search is a winner.  Greedy Best First Graph Search H1 is a
+tempting choice if the calculation of the plan is extremely important, but given that it produced
+a route that was nearly twice as long a Breadth First Search it is doubtful that it would actually
+be useful in a shipping context.
+
+\section{Comparisons}
+
+Breadth First Search and Depth First Search have significant differences in results: DFS is extremely quick when it comes to finding a solution.  Unfortunately
+the path that was found was generally an order of magnitude larger than the path found by BFS, leaving DFS as an unlikely candidate.
+
+Breadth First Search and Uniform Cost Search appear to be about on par with one another.  They are similar algothrithms so this shouldn't come as a surprise.
+On all counts BFS is anywhere from moderately to significantly better than UCS.  While their path lengths are the same, time elapsed makes BFS a clear winner.
+
+\section{A* Heuristics}
+- Compare and contrast heuristic search result metrics using A* with the "ignore preconditions" and "level-sum" heuristics for Problems 1, 2, and 3.
+- What was the best heuristic used in these problems?  Was it better than non-heuristic search planning methods for all problems?  Why or why not?
+
 
 
 
@@ -27,12 +55,12 @@
 
 Zero value data points indicate that a 10 minute timeout was reached.
 
-\begin{tikzpicture}
+\begin{tikzpicture}[trim axis left, trim axis right]
 	\begin{axis}[
-			title={Expansions},
+			title={Path Length},
 			major x tick style = transparent,
 			ybar=0pt,
-			ymax=25000,
+			ymax=800,
 			symbolic x coords={
 				BreadthFirstSearch,
 				BreadthFirstTreeSearch,
@@ -45,7 +73,162 @@ Zero value data points indicate that a 10 minute timeout was reached.
 				AstarSearchHIgnorePreconditions,
 				HPgLevelsum
 			},
-			x post scale=1.9,
+			height=6cm,
+			x post scale=2.5,
+			x tick label style={rotate=45,anchor=east},
+			bar width=10pt,
+			nodes near coords,
+			every node near coord/.append style={rotate=90, anchor=west},
+      legend cell align=left,
+      legend style={
+        at={(1,1.05)},
+        anchor=south east,
+        column sep=1ex
+      }
+			]
+
+		\addplot table {
+			X Y
+			BreadthFirstSearch 6
+			BreadthFirstTreeSearch 6
+			DepthFirstGraphSearch 20
+			DepthLimitedSearch 50
+			UniformCostSearch 6
+			RecursiveBestFirstSearchH1 6
+			GreedyBestFirstGraphSearchH1 6
+			AstarSearchH1 6
+			AstarSearchHIgnorePreconditions 6
+			HPgLevelsum 6
+		};
+		\addplot table {
+			X Y
+			BreadthFirstSearch 9
+			DepthFirstGraphSearch 619
+			UniformCostSearch 9
+			GreedyBestFirstGraphSearchH1 21
+			AstarSearchH1 9
+			AstarSearchHIgnorePreconditions 9
+			HPgLevelsum 9
+			BreadthFirstTreeSearch 0
+			DepthLimitedSearch 0
+			RecursiveBestFirstSearchH1 0
+		};
+		\addplot table {
+			X Y
+			BreadthFirstSearch 12
+			DepthFirstGraphSearch 392
+			UniformCostSearch 12
+			GreedyBestFirstGraphSearchH1 22
+			AstarSearchH1 12
+			AstarSearchHIgnorePreconditions 12
+			BreadthFirstTreeSearch 0
+			DepthLimitedSearch 0
+			RecursiveBestFirstSearchH1 0
+			HPgLevelsum 0
+		};
+		\addlegendentry{Problem 1}
+		\addlegendentry{Problem 2}
+		\addlegendentry{Problem 3}
+	\end{axis}
+\end{tikzpicture}
+
+\begin{tikzpicture}[trim axis left, trim axis right]
+	\begin{axis}[
+			title={Time Elapsed (Seconds)},
+			major x tick style = transparent,
+			ybar=0pt,
+			ymax=800,
+			symbolic x coords={
+				BreadthFirstSearch,
+				BreadthFirstTreeSearch,
+				DepthFirstGraphSearch,
+				DepthLimitedSearch,
+				UniformCostSearch,
+				RecursiveBestFirstSearchH1,
+				GreedyBestFirstGraphSearchH1,
+				AstarSearchH1,
+				AstarSearchHIgnorePreconditions,
+				HPgLevelsum
+			},
+			height=6cm,
+			x post scale=2.5,
+			x tick label style={rotate=45,anchor=east},
+			bar width=10pt,
+			nodes near coords,
+			every node near coord/.append style={rotate=90, anchor=west},
+      legend cell align=left,
+      legend style={
+        at={(1,1.05)},
+        anchor=south east,
+        column sep=1ex
+      }
+			]
+
+		\addplot table {
+			X Y
+			BreadthFirstSearch 0.029392972006462514
+			BreadthFirstTreeSearch 0.910086860996671
+			DepthFirstGraphSearch 0.01332990700029768
+			DepthLimitedSearch 0.0973146399774123
+			UniformCostSearch 0.040256563981529325
+			RecursiveBestFirstSearchH1 2.7363686690223403
+			GreedyBestFirstGraphSearchH1 0.004887217015493661
+			AstarSearchH1 0.037505268992390484
+			AstarSearchHIgnorePreconditions 0.04793940999661572
+			HPgLevelsum 1.664410956989741
+		};
+		\addplot table {
+			X Y
+			BreadthFirstSearch 14.388099233008688
+			DepthFirstGraphSearch 3.5191853329888545
+			UniformCostSearch 45.29418297301163
+			GreedyBestFirstGraphSearchH1 7.381141820020275
+			AstarSearchH1 45.78383195499191
+			AstarSearchHIgnorePreconditions 40.50242119200993
+			HPgLevelsum 177.206022828992
+			BreadthFirstTreeSearch 0
+			DepthLimitedSearch 0
+			RecursiveBestFirstSearchH1 0
+		};
+		\addplot table {
+			X Y
+			BreadthFirstSearch 103.0314349620021
+			DepthFirstGraphSearch 1.7440492039895616
+			UniformCostSearch 359.8916142139933
+			GreedyBestFirstGraphSearchH1 95.50744679800118
+			AstarSearchH1 356.3388120960153
+			AstarSearchHIgnorePreconditions 336.01290577300824
+			BreadthFirstTreeSearch 0
+			DepthLimitedSearch 0
+			RecursiveBestFirstSearchH1 0
+			HPgLevelsum 0
+		};
+		\addlegendentry{Problem 1}
+		\addlegendentry{Problem 2}
+		\addlegendentry{Problem 3}
+	\end{axis}
+\end{tikzpicture}
+
+\begin{tikzpicture}[trim axis left, trim axis right]
+	\begin{axis}[
+			title={Expansions},
+			major x tick style = transparent,
+			ybar=0pt,
+			ymax=30000,
+			symbolic x coords={
+				BreadthFirstSearch,
+				BreadthFirstTreeSearch,
+				DepthFirstGraphSearch,
+				DepthLimitedSearch,
+				UniformCostSearch,
+				RecursiveBestFirstSearchH1,
+				GreedyBestFirstGraphSearchH1,
+				AstarSearchH1,
+				AstarSearchHIgnorePreconditions,
+				HPgLevelsum
+			},
+			height=6cm,
+			x post scale=2.5,
 			x tick label style={rotate=45,anchor=east},
 			bar width=10pt,
 			nodes near coords,
@@ -106,12 +289,12 @@ Zero value data points indicate that a 10 minute timeout was reached.
 	\end{axis}
 \end{tikzpicture}
 
-\begin{tikzpicture}
+\begin{tikzpicture}[trim axis left, trim axis right]
 	\begin{axis}[
 			title={Goal Tests},
 			major x tick style = transparent,
 			ybar=0pt,
-			ymax=25000,
+			ymax=30000,
 			symbolic x coords={
 				BreadthFirstSearch,
 				BreadthFirstTreeSearch,
@@ -124,7 +307,8 @@ Zero value data points indicate that a 10 minute timeout was reached.
 				AstarSearchHIgnorePreconditions,
 				HPgLevelsum
 			},
-			x post scale=1.9,
+			height=6cm,
+			x post scale=2.5,
 			x tick label style={rotate=45,anchor=east},
 			bar width=10pt,
 			nodes near coords,
@@ -182,12 +366,12 @@ Zero value data points indicate that a 10 minute timeout was reached.
 	\end{axis}
 \end{tikzpicture}
 
-\begin{tikzpicture}
+\begin{tikzpicture}[trim axis left, trim axis right]
 	\begin{axis}[
 			title={New Nodes},
 			major x tick style = transparent,
 			ybar=0pt,
-			ymax=240000,
+			ymax=260000,
 			symbolic x coords={
 				BreadthFirstSearch,
 				BreadthFirstTreeSearch,
@@ -200,7 +384,8 @@ Zero value data points indicate that a 10 minute timeout was reached.
 				AstarSearchHIgnorePreconditions,
 				HPgLevelsum
 			},
-			x post scale=1.9,
+			height=6cm,
+			x post scale=2.5,
 			x tick label style={rotate=45,anchor=east},
 			bar width=10pt,
 			nodes near coords,
@@ -247,158 +432,6 @@ Zero value data points indicate that a 10 minute timeout was reached.
 			GreedyBestFirstGraphSearchH1 49150
 			AstarSearchH1 159618
 			AstarSearchHIgnorePreconditions 130437
-			BreadthFirstTreeSearch 0
-			DepthLimitedSearch 0
-			RecursiveBestFirstSearchH1 0
-			HPgLevelsum 0
-		};
-		\addlegendentry{Problem 1}
-		\addlegendentry{Problem 2}
-		\addlegendentry{Problem 3}
-	\end{axis}
-\end{tikzpicture}
-
-\begin{tikzpicture}
-	\begin{axis}[
-			title={Path Length},
-			major x tick style = transparent,
-			ybar=0pt,
-			ymax=800,
-			symbolic x coords={
-				BreadthFirstSearch,
-				BreadthFirstTreeSearch,
-				DepthFirstGraphSearch,
-				DepthLimitedSearch,
-				UniformCostSearch,
-				RecursiveBestFirstSearchH1,
-				GreedyBestFirstGraphSearchH1,
-				AstarSearchH1,
-				AstarSearchHIgnorePreconditions,
-				HPgLevelsum
-			},
-			x post scale=1.9,
-			x tick label style={rotate=45,anchor=east},
-			bar width=10pt,
-			nodes near coords,
-			every node near coord/.append style={rotate=90, anchor=west},
-      legend cell align=left,
-      legend style={
-        at={(1,1.05)},
-        anchor=south east,
-        column sep=1ex
-      }
-			]
-
-		\addplot table {
-			X Y
-			BreadthFirstSearch 6
-			BreadthFirstTreeSearch 6
-			DepthFirstGraphSearch 20
-			DepthLimitedSearch 50
-			UniformCostSearch 6
-			RecursiveBestFirstSearchH1 6
-			GreedyBestFirstGraphSearchH1 6
-			AstarSearchH1 6
-			AstarSearchHIgnorePreconditions 6
-			HPgLevelsum 6
-		};
-		\addplot table {
-			X Y
-			BreadthFirstSearch 9
-			DepthFirstGraphSearch 619
-			UniformCostSearch 9
-			GreedyBestFirstGraphSearchH1 21
-			AstarSearchH1 9
-			AstarSearchHIgnorePreconditions 9
-			HPgLevelsum 9
-			BreadthFirstTreeSearch 0
-			DepthLimitedSearch 0
-			RecursiveBestFirstSearchH1 0
-		};
-		\addplot table {
-			X Y
-			BreadthFirstSearch 12
-			DepthFirstGraphSearch 392
-			UniformCostSearch 12
-			GreedyBestFirstGraphSearchH1 22
-			AstarSearchH1 12
-			AstarSearchHIgnorePreconditions 12
-			BreadthFirstTreeSearch 0
-			DepthLimitedSearch 0
-			RecursiveBestFirstSearchH1 0
-			HPgLevelsum 0
-		};
-		\addlegendentry{Problem 1}
-		\addlegendentry{Problem 2}
-		\addlegendentry{Problem 3}
-	\end{axis}
-\end{tikzpicture}
-
-\begin{tikzpicture}
-	\begin{axis}[
-			title={Time Elapsed},
-			major x tick style = transparent,
-			ybar=0pt,
-			ymax=800,
-			symbolic x coords={
-				BreadthFirstSearch,
-				BreadthFirstTreeSearch,
-				DepthFirstGraphSearch,
-				DepthLimitedSearch,
-				UniformCostSearch,
-				RecursiveBestFirstSearchH1,
-				GreedyBestFirstGraphSearchH1,
-				AstarSearchH1,
-				AstarSearchHIgnorePreconditions,
-				HPgLevelsum
-			},
-			x post scale=1.9,
-			x tick label style={rotate=45,anchor=east},
-			bar width=10pt,
-			nodes near coords,
-			every node near coord/.append style={rotate=90, anchor=west},
-      legend cell align=left,
-      legend style={
-        at={(1,1.05)},
-        anchor=south east,
-        column sep=1ex
-      }
-			]
-
-		\addplot table {
-			X Y
-			BreadthFirstSearch 0.029392972006462514
-			BreadthFirstTreeSearch 0.910086860996671
-			DepthFirstGraphSearch 0.01332990700029768
-			DepthLimitedSearch 0.0973146399774123
-			UniformCostSearch 0.040256563981529325
-			RecursiveBestFirstSearchH1 2.7363686690223403
-			GreedyBestFirstGraphSearchH1 0.004887217015493661
-			AstarSearchH1 0.037505268992390484
-			AstarSearchHIgnorePreconditions 0.04793940999661572
-			HPgLevelsum 1.664410956989741
-		};
-		\addplot table {
-			X Y
-			BreadthFirstSearch 14.388099233008688
-			DepthFirstGraphSearch 3.5191853329888545
-			UniformCostSearch 45.29418297301163
-			GreedyBestFirstGraphSearchH1 7.381141820020275
-			AstarSearchH1 45.78383195499191
-			AstarSearchHIgnorePreconditions 40.50242119200993
-			HPgLevelsum 177.206022828992
-			BreadthFirstTreeSearch 0
-			DepthLimitedSearch 0
-			RecursiveBestFirstSearchH1 0
-		};
-		\addplot table {
-			X Y
-			BreadthFirstSearch 103.0314349620021
-			DepthFirstGraphSearch 1.7440492039895616
-			UniformCostSearch 359.8916142139933
-			GreedyBestFirstGraphSearchH1 95.50744679800118
-			AstarSearchH1 356.3388120960153
-			AstarSearchHIgnorePreconditions 336.01290577300824
 			BreadthFirstTreeSearch 0
 			DepthLimitedSearch 0
 			RecursiveBestFirstSearchH1 0
