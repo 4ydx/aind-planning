@@ -1,9 +1,9 @@
 \documentclass[10pt, a4paper]{article}
 \usepackage[utf8]{inputenc}
 
-\title{Game Tree Searching by Min / Max Approximation In Review}
+\title{Developments in AI Planning and Search}
 \author{Nathan Findley}
-\date{March 2017}
+\date{June 2017}
 
 \begin{document}
 
@@ -11,64 +11,47 @@
 
 \begin{abstract}
 
-A new game\cite{lamport94} tree search technique called Min / Max Approximation was introduced
-by Ronald L. Rivest in 1986.  An iterative approach, it is used to determine
-which leaf should be futher expanded so that the root will have a value that
-approaches the true values of a fully expanded tree.  When evaluated in 
-comparison with minmax alpha-beta pruning
-using iterative deepening over the course of nearly 1,000 trials, Min / Max
-approximation was seen to be either a strong contender when limiting turns by move count 
-or a slightly weaker contender when limiting turns by time.
+The subset of AI research focused on planning has been actively pursued for the past three decades.  
+Historically there were various periods, such as the AI winter of 1987 - 1993, during which research
+stagnated due to lack of governmental funding for research.  Nonetheless improvements within the field
+of AI continued sporatically and have blossomed within the last few years.  As recently as 2015 Jack Clark
+of Bloomberg indicated\cite{jack} that Google's internal usage of AI had exploded to more than 2700 projects.
 
 \end{abstract}
 
-\section{Problem} 
+Planning is the subset of AI concerned with taking both a set of initial states and a set of end states and finding
+a reasonable way of determining how to concretely tranform one of these sets to the other.  This particular mindset
+was established with the seminal work of Richard E. Fikes and Nils J. Nilsson in 1971 when they published their methodology
+known as STRIPS.  This approach resulted in a simplification of the established approach:  when dealing with planning methods 
+the states that change - the Effect Axioms - as well as the unchanged states - the Frame axioms - as a result of a particular action were, 
+up until the introduction of STRIPS, both required in order to solve the planning problem\cite{derek}.  The problem of tracking the Frame axioms as well
+as determining that the Frame axioms are in fact exhaustive, turns out to be difficult. 
+"In STRIPS, we surmount these difficulties by separating entirely the processes of theorem proving from those of searching through a space of world models."\cite{richard}
+Unfortunately as time went on, solving problems that were little more than simple puzzles didn't lead to approaches that could actually
+solve real world problems.
 
-When designing an algorithm to handle all possible branches of all possible
-plays within any given game, the immediate limiting factors are time and computation: a perfect
-view of the entire tree of gameplay for a particular game is not feasible.
+In 1995 Graphplan takes a planning problem expressed in STRIPS and searches for a goal state.  Relative to other techiniques at the time, its
+authors argued that "Graphplan always returns a shortest-possible partial-order plan, or states that no valid plan exists".\cite{ablum}
 
-\section{Goal} 
+Heuristics Search Planning was later established as a good means of planning by whereby "informative heuristic function could be constructed automat-
+ically"\cite{derek}.  Determining planning routes is then left to a relaxed plan approach.
 
-Min / Max Approximation is attempting to solve this problem.  Unlike minimax
-alpha-beta pruning with iterative deepening which moves down the tree with a uniform depth, 
-Min / Max approximation follows a
-given branch in a tree because it appears to be beneficial.  As a result, different
-levels of depth are reached in different branches of the partial tree.  Essentially one branch is explored
-until the root node's value is considered better when exploring a different tip.
-At that point in time, search switches to the seemingly more valuable tip.  
-Time permitting, the depth of the most valuable branch will reach a terminating leaf.  As to which tip should 
-be explored, Min / Max approximation is presented as a possible answer.
+In 1998 the PDDL was created in order to make the International Planning Completition possible. 
+This common language "fosters far greater reuse of research and allows more direct comparison of systems and approaches"\cite{mfox}
+which accelerates research and eases the sharing of knowledge.  Planning problems typically use PDDL.
 
-Penalties are introduced in order to determine which tip to pursue.  "Bad" tips of the tree
-are weighted with a nonnegative penalty that distinguishes them from "good" tips.
-The overall penalty for a given tip is the sum of all penalties tracing up to the original root of the partial tree.
-This calculation of a viable tip is what distinguishes this algorithm from minimax alpha-beta: the tip that causes
-the root the have the lowest penalty is the one that is further explored. As soon as a tip's
-weight drops its penalty score below any other tip in the partially expanded
-tree, that more favorable tip is then explored. According to the author, one of Min / Max approximations 
-strengths is to encourage branches that have secondary lines of play that might also be
-winnable since the penalty calculation is determined cumulatively rather than
-just using a child with the highest value.
-
-\section{Results} 
-
-Connect four was used to explore whether or not this is a viable algorithm in comparison
-with minimax alpha-beta pruning.  After nearly 1000 trials, the author felt confident
-that this method could be further explored and may possibly be incorporated with existing
-techinques at the time. Overall Min / Max Approximation appears more effective than traditional 
-minimax alpha-beta pruning with iterative deepening as long as the number of moves 
-is the limiting resource when comparing the two methods.  Unfortunately game rounds are typically
-constrained by time, preventing this method from immediately being the best option available.
+In the early 1990s a fissure developed in the AI community over whether general purpose algorithms, like those found in classical planning, or domain
+specific algorithms, which typically produced better results, but were not widely applicable, were better.  As classical planning methods are relaxed
+solutions to real world problems become more attainable.  Further research into methods that incorporate new data during the execution of the planning algorithm as well
+as algorithms that deal with external uncertainties are likely to be important parts of the future of AI planning research.
 
 \begin{thebibliography}{9}
 
-\bibitem{lamport94}
-  Leslie Lamport,
-  \emph{\LaTeX: a document preparation system},
-  Addison Wesley, Massachusetts,
-  2nd edition,
-  1994.
+\bibitem{ablum}A. Blum and M. Furst \emph{"Fast planning through planning graph analysis"} Artificial intelligence. 90:281–300, 1997 
+\bibitem{derek}Derek Long, Maria Fox, \emph{"Progress	in AI Planning Research and Applications"}, UPGRADE Vol. III, No. 5, October 2002
+\bibitem{jack}Jack Clark, Bloomberg News, \emph{"Why 2015 Was a Breakthrough Year in Artificial Intelligence"}, 8 December 2015.
+\bibitem{mfox}M. Fox, D. Long, \emph{"PDDL+: Modeling continuous time dependent effects"}, Proceedings of the 3rd International NASA Workshop on Planning and Scheduling for Space.
+\bibitem{richard}Richard E. Fikes, Nils J. Nilsson, \emph{"STRIPS: A New Approach to the Application of Theorem Proving to Problem Solving"}, 1 September 1971, p 190
 
 \end{thebibliography}
 
